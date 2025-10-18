@@ -36,7 +36,7 @@ Verify Login Workflow Success
     Wait For Elements State    role=${page_header_selector}    visible    timeout=${GLOBAL_WAIT}
 
 Verify Login Failure
-    [Tags]    "detach page"
+    [Tags]    detach_page
     ${page}=    Set Variable    ${suite_page}
     ${page}=    Handle Page    ${page}    ${BASE_URL}${LOGIN_PAGE_PATH}
     Login    fail    fail

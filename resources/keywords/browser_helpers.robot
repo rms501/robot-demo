@@ -10,7 +10,7 @@ Breakpoint
 
 Handle Page
     [Arguments]    ${page}    ${url}=None
-    IF    "detach page" in ${TEST TAGS}
+    IF    "detach_page" in ${TEST TAGS}
         ${page}=    New Page    ${url}
     END
     RETURN    ${page}
