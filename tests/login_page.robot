@@ -2,8 +2,8 @@
 Library     Browser
 Resource    ../resources/variables/env_vars.robot
 Resource    ../resources/keywords/browser_helpers.robot
-Test Setup    Navigate To Page    url=${BASE_URL}${LOGIN_PAGE_PATH}    headless=${HEADLESS}
-Test Teardown    Close Browser
+Suite Setup    Navigate To Page For Suite    url=${BASE_URL}${LOGIN_PAGE_PATH}    headless=${HEADLESS}
+Suite Teardown    Close Browser
 
 *** Variables ***
 ${page_header_selector}    heading[name="Login Page"][level=2]
@@ -20,9 +20,13 @@ Login
 
 *** Test Cases ***
 Verify Login Page Header
+    ${page}=    Set Variable    ${suite_page}
+    ${page}=    Handle Page    ${page}
     Wait For Elements State    role=${page_header_selector}    visible    timeout=${GLOBAL_WAIT}
 
 Verify Login Workflow Success
+    ${page}=    Set Variable    ${suite_page}
+    ${page}=    Handle Page    ${page}
     Login    tomsmith    SuperSecretPassword!
     &{success_banner_locator}    Create Dictionary    type=xpath    selector=//div[@class='flash success']    state=visible
     &{success_header_locator}    Create Dictionary    type=role    selector=heading[name='Secure Area'][level=2]    state=visible
@@ -32,5 +36,8 @@ Verify Login Workflow Success
     Wait For Elements State    role=${page_header_selector}    visible    timeout=${GLOBAL_WAIT}
 
 Verify Login Failure
+    [Tags]    "detach page"
+    ${page}=    Set Variable    ${suite_page}
+    ${page}=    Handle Page    ${page}    ${BASE_URL}${LOGIN_PAGE_PATH}
     Login    fail    fail
     Wait For Elements State    xpath=//div[@class='flash error']    visible    timeout=${GLOBAL_WAIT}

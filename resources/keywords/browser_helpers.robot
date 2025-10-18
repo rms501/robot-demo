@@ -8,12 +8,25 @@ Resource    ../variables/env_vars.robot
 Breakpoint
     Run Keyword If    ${DEBUG_MODE} == True    Debug
 
+Handle Page
+    [Arguments]    ${page}    ${url}=None
+    IF    "detach page" in ${TEST TAGS}
+        ${page}=    New Page    ${url}
+    END
+    RETURN    ${page}
+
 Navigate To Page
-    [Arguments]    ${url}    ${headless}=True    ${timeout}=3s
-    New Browser    headless=${headless}    browser=chromium
+    [Arguments]    ${url}    ${headless}=True    ${browser}=chromium    ${timeout}=3s
+    New Browser    headless=${headless}    browser=${browser}
     New Context
-    New Page       ${url}
+    ${page}=    New Page       ${url}
     Wait For Load State    domcontentloaded    timeout=${timeout}
+    RETURN    ${page}
+
+Navigate To Page For Suite
+    [Arguments]    ${url}    ${headless}=True    ${browser}=chromium    ${timeout}=3s
+    ${page}=    Navigate To Page    ${url}    headless=${headless}    browser=${browser}    timeout=${timeout}
+    Set Suite Variable    ${suite_page}    ${page}
 
 Wait For Elements List
     [Arguments]    @{locators}
