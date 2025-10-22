@@ -1,10 +1,7 @@
 *** Settings ***
-Library    Browser
 Library    Collections
-Resource    ../resources/variables/env_vars.robot
-Resource    ../resources/keywords/browser_helpers.robot
-Suite Setup    Navigate To Page    url=${BASE_URL}    headless=${HEADLESS}
-Suite Teardown    Close Browser
+Resource    ${CURDIR}/../../resources/keywords/browser_helpers.robot
+Suite Setup    Navigate To Page    url=${UI_BASE_URL}
 
 *** Test Cases ***
 Verify Landing Page Headers Render
@@ -17,3 +14,4 @@ Verify Links Render
     &{form_authentication_link_locator}    Create Dictionary    type=role    selector=link[name="Form Authentication"]    state=visible
     @{links}    Create List    ${form_authentication_link_locator}
     Wait For Elements List    @{links}
+    Breakpoint

@@ -1,9 +1,7 @@
 *** Settings ***
-Library     Browser
-Resource    ../resources/variables/env_vars.robot
-Resource    ../resources/keywords/browser_helpers.robot
-Suite Setup    Navigate To Page For Suite    url=${BASE_URL}${LOGIN_PAGE_PATH}    headless=${HEADLESS}
-Suite Teardown    Close Browser
+Resource    ${CURDIR}/../../resources/variables/env_vars.robot
+Resource    ${CURDIR}/../../resources/keywords/browser_helpers.robot
+Suite Setup    Navigate To Page For Suite    url=${UI_BASE_URL}${LOGIN_PAGE_PATH}
 
 *** Variables ***
 ${page_header_selector}    heading[name="Login Page"][level=2]
@@ -38,6 +36,7 @@ Verify Login Workflow Success
 Verify Login Failure
     [Tags]    detach_page
     ${page}=    Set Variable    ${suite_page}
-    ${page}=    Handle Page    ${page}    ${BASE_URL}${LOGIN_PAGE_PATH}
+    ${page}=    Handle Page    ${page}    ${UI_BASE_URL}${LOGIN_PAGE_PATH}
     Login    fail    fail
     Wait For Elements State    xpath=//div[@class='flash error']    visible    timeout=${GLOBAL_WAIT}
+    Breakpoint
