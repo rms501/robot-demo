@@ -8,4 +8,4 @@ ${LOGIN_PAGE_PATH}    /login
 ${GLOBAL_WAIT}    3s
 
 # API env vars
-${API_BASE_URL}    https://petstore.swagger.io/v2
+${API_BASE_URL}    http://localhost:8080/

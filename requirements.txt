@@ -1,3 +1,4 @@
 robotframework==7.3.2
 robotframework-browser==19.9.0
 robotframework-debuglibrary==2.5.0
+robotframework-requests==0.9.7

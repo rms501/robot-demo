@@ -1,42 +1,46 @@
 *** Settings ***
 Resource    ${CURDIR}/../../resources/variables/env_vars.robot
+Resource    ${CURDIR}/../../resources/keywords/generic_helpers.robot
 Resource    ${CURDIR}/../../resources/keywords/browser_helpers.robot
-Suite Setup    Navigate To Page For Suite    url=${UI_BASE_URL}${LOGIN_PAGE_PATH}
+Test Setup    Navigate To Page    url=${UI_BASE_URL}${LOGIN_PAGE_PATH}
+Test Teardown    Close Page
 
 *** Variables ***
-${page_header_selector}    heading[name="Login Page"][level=2]
-${username_field_selector}    textbox[name="Username"]
-${password_field_selector}    textbox[name="Password"]
-${login_button_selector}    button
+${PAGE_HEADER_SELECTOR}    heading[name="Login Page"][level=2]
+${USERNAME_FIELD_SELECTOR}    textbox[name="Username"]
+${PASSWORD_FIELD_SELECTOR}    textbox[name="Password"]
+${LOGIN_BUTTON_SELECTOR}    button
+${USERNAME}    tomsmith
+${PASSWORD}    SuperSecretPassword!
 
 *** Keywords ***
 Login
     [Arguments]    ${username}    ${password}    ${timeout}=${GLOBAL_WAIT}
-    Fill Text    role=${username_field_selector}    ${username}
-    Fill Text    role=${password_field_selector}    ${password}
-    Click    role=${login_button_selector}
+    Fill Text    role=${USERNAME_FIELD_SELECTOR}    ${username}
+    Fill Text    role=${PASSWORD_FIELD_SELECTOR}    ${password}
+    Click    role=${LOGIN_BUTTON_SELECTOR}
+
+Login Failure
+    [Arguments]    ${username}    ${password}    ${timeout}=${GLOBAL_WAIT}
+    Login    username=${username}    password=${password}    timeout=${timeout}
+    Wait For Elements State    xpath=//div[@class='flash error']    visible    timeout=${GLOBAL_WAIT}
 
 *** Test Cases ***
 Verify Login Page Header
-    ${page}=    Set Variable    ${suite_page}
-    ${page}=    Handle Page    ${page}
-    Wait For Elements State    role=${page_header_selector}    visible    timeout=${GLOBAL_WAIT}
+    Wait For Elements State    role=${PAGE_HEADER_SELECTOR}    visible    timeout=${GLOBAL_WAIT}
 
-Verify Login Workflow Success
-    ${page}=    Set Variable    ${suite_page}
-    ${page}=    Handle Page    ${page}
-    Login    tomsmith    SuperSecretPassword!
+Verify Login Success
+    Login    ${USERNAME}    ${PASSWORD}
     &{success_banner_locator}    Create Dictionary    type=xpath    selector=//div[@class='flash success']    state=visible
     &{success_header_locator}    Create Dictionary    type=role    selector=heading[name='Secure Area'][level=2]    state=visible
     @{success_locators}    Create List    ${success_banner_locator}    ${success_header_locator}
-    Wait For Elements List    @{success_locators}
+    Wait For Elements List    ${success_locators}
     Click    xpath=//a[@href='/logout']
     Wait For Elements State    role=${page_header_selector}    visible    timeout=${GLOBAL_WAIT}
 
 Verify Login Failure
-    [Tags]    detach_page
-    ${page}=    Set Variable    ${suite_page}
-    ${page}=    Handle Page    ${page}    ${UI_BASE_URL}${LOGIN_PAGE_PATH}
-    Login    fail    fail
-    Wait For Elements State    xpath=//div[@class='flash error']    visible    timeout=${GLOBAL_WAIT}
-    Breakpoint
+    [Template]    Login Failure
+    fail    fail
+    ${USERNAME}    fail
+    fail    ${PASSWORD}
+    ${EMPTY}    ${EMPTY}

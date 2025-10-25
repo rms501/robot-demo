@@ -1,13 +1,9 @@
 *** Settings ***
 Library    Browser
 Library    Collections
-Library    DebugLibrary
 Resource    ../variables/env_vars.robot
 
 *** Keywords ***
-Breakpoint
-    Run Keyword If    ${DEBUG_MODE} == True    Debug
-
 Handle Page
     [Arguments]    ${page}    ${url}=None
     IF    "detach_page" in ${TEST TAGS}
@@ -27,12 +23,12 @@ Navigate To Page
     RETURN    ${page}
 
 Navigate To Page For Suite
-    [Arguments]    ${url}    ${headless}=True    ${browser}=chromium    ${timeout}=3s
+    [Arguments]    ${url}    ${timeout}=3s
     ${page}=    Navigate To Page    ${url}    timeout=${timeout}
     Set Suite Variable    ${suite_page}    ${page}
 
 Wait For Elements List
-    [Arguments]    @{locators}
+    [Arguments]    ${locators}
     FOR    ${locator}    IN    @{locators}
         ${type}=    Get From Dictionary    ${locator}    type
         ${selector}=    Get From Dictionary    ${locator}    selector
