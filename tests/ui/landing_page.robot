@@ -1,3 +1,4 @@
+#TODO: Refactor to use page objects
 *** Settings ***
 Library    Collections
 Resource    ${CURDIR}/../../resources/keywords/generic_helpers.robot
