@@ -1,7 +1,7 @@
 *** Settings ***
-Resource    ${CURDIR}/../../resources/variables/env_vars.robot
-Resource    ${CURDIR}/../../resources/keywords/generic_helpers.robot
-Resource    ${CURDIR}/../../resources/keywords/browser_helpers.robot
+Resource    ${CURDIR}/../../resources/variables/env_vars.resource
+Resource    ${CURDIR}/../../resources/keywords/generic_helpers.resource
+Resource    ${CURDIR}/../../resources/keywords/browser_helpers.resource
 Test Setup    Navigate To Page    url=${UI_BASE_URL}${LOGIN_PAGE_PATH}
 Test Teardown    Close Page
 

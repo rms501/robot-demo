@@ -1,6 +1,6 @@
 *** Settings ***
 Library    DebugLibrary
-Resource    ../variables/env_vars.robot
+Resource    ../variables/env_vars.resource
 
 *** Keywords ***
 Breakpoint
