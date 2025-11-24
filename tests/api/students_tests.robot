@@ -1,4 +1,4 @@
-#TODO: Expand scope of tests to other methods and scenarios, e.g. negative tests/4XX cases
+# TODO: Expand scope of tests to other methods and scenarios, e.g. negative tests/4XX cases
 *** Settings ***
 Library    RequestsLibrary
 Library    Collections

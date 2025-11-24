@@ -1,3 +1,4 @@
+# TODO: Refactor to use page objects
 *** Settings ***
 Resource    ${CURDIR}/../../resources/variables/env_vars.resource
 Resource    ${CURDIR}/../../resources/keywords/generic_helpers.resource
